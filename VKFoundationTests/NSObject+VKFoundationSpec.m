@@ -16,18 +16,19 @@ describe(@"valueForKeyPath", ^{
 
 describe(@"RUN_ON_UI_THREAD", ^{
 
-  it(@"RUN_ON_UI_THREAD should run on main thread", ^AsyncBlock {
-    
-    __block BOOL runOnBackgroundThread = NO;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),^{
-      runOnBackgroundThread = ([NSThread currentThread] != [NSThread mainThread]);
-      
-      RUN_ON_UI_THREAD(^{
-        expect(runOnBackgroundThread).to.equal(YES);
-        expect([NSThread currentThread]).to.equal([NSThread mainThread]);
-        done();
+  it(@"RUN_ON_UI_THREAD should run on main thread", ^{
+      waitUntil(^(DoneCallback done) {
+        __block BOOL runOnBackgroundThread = NO;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),^{
+          runOnBackgroundThread = ([NSThread currentThread] != [NSThread mainThread]);
+          
+          RUN_ON_UI_THREAD(^{
+            expect(runOnBackgroundThread).to.equal(YES);
+            expect([NSThread currentThread]).to.equal([NSThread mainThread]);
+            done();
+          });
+        });
       });
-    });
   });
 
   it(@"RUN_ON_UI_THREAD should run synchronously if it's doing on main thread", ^ {

@@ -3,8 +3,9 @@
 //  Copyright (c) 2014 Viki Inc. All rights reserved.
 //
 
-#import <DDLog.h>
-#import <DTCoreText.h>
+#define DD_LEGACY_MACROS 0
+#import <CocoaLumberjack/CocoaLumberjack.h>
+#import <DTCoreText/DTCoreText.h>
 
 #import "VKFoundationLib.h"
 #import "NSObject+VKFoundation.h"

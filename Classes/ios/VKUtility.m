@@ -9,10 +9,18 @@
 #include <sys/sysctl.h>
 #import "VKFoundation.h"
 
+// Define WVLogLevel variable to avoid conflicts with ddLogLevel definition
+#ifdef LOG_LEVEL_DEF
+    #undef LOG_LEVEL_DEF // Undefine first only if needed
+#endif
+#ifndef LOG_LEVEL_DEF
+    #define LOG_LEVEL_DEF vkfLogLevel
+#endif
+
 #ifdef DEBUG
-  static const int ddLogLevel = LOG_LEVEL_WARN;
+  static DDLogLevel vkfLogLevel = DDLogLevelDebug;
 #else
-  static const int ddLogLevel = LOG_LEVEL_WARN;
+  static DDLogLevel vkfLogLevel = DDLogLevelWarning;
 #endif
 
 @interface VKUtility ()
